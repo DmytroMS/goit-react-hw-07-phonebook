@@ -3,7 +3,7 @@ import shortid from "shortid";
 import f from './Filter.module.css';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { filterContacts } from "../../redux/actions";
+import { filterContacts } from "../../redux/contacts/contactsActions";
 
 export default function Filter() {
     const filter = useSelector(state => state.filter);

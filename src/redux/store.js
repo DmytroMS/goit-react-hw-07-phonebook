@@ -1,10 +1,9 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import rootReducer from "./reducers";
-// import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { logger } from 'redux-logger';
+// забираю весь редюсер как файл
+import contactReducer from './contacts/contactsReducer';
+
 import {
-  persistStore,
-  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -13,27 +12,17 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-const persistConfig = {
-    key: 'contacts',
-    storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-
-const store = configureStore({
-    reducer: persistedReducer,
-    middleware: getDefaultMiddleware({
+const middleware = [
+  ...getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
-    devTools: true 
-    //  process.env.NODE_ENV === 'development'
+  logger,
+];
 
+export const store = configureStore({
+  reducer: contactReducer,
+  middleware,
+  devTools: true,
 });
-
-const persistor = persistStore(store);
-const obj = { store, persistor };
-
-export default obj;

@@ -1,20 +1,24 @@
 // import react, { Component } from "react";
 import { useState } from 'react';
-import shortid from 'shortid';
+// import shortid from 'shortid';
 import f from './Contacts.module.css';
-import { addContact } from '../../redux/actions';
+import { addContacts } from '../../redux/contacts/contactsOperations'
 import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from '../../redux/contacts/contactsSelectors';
 
 
 export default function InputForm() {
+
+ 
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
- const nameInputId = shortid.generate();
-  const numberInputId = shortid.generate();
+//  const nameInputId = shortid.generate();
+//   const numberInputId = shortid.generate();
   
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.items);
+  const contacts = useSelector(state => getContacts(state));
 
 
   const handleInputChange = e => {
@@ -43,9 +47,9 @@ export default function InputForm() {
    const addContactOnSubmit = {
      name,
      number,
-     id: shortid.generate(),
+    //  id: shortid.generate(),
    }
-   dispatch(addContact(addContactOnSubmit));
+   dispatch(addContacts(addContactOnSubmit));
     setName('');
     setNumber('');
 
@@ -56,7 +60,7 @@ export default function InputForm() {
   return (
      <div className={f.forma}>
           <form onSubmit={handleSubmit} >
-          <label className={f.forma__label} htmlFor={nameInputId}>
+          <label className={f.forma__label} >
             NAME
             <input className={f.forma__input}
               type="text"
@@ -65,12 +69,12 @@ export default function InputForm() {
               title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
               required
               value={name}
-                        onChange={handleInputChange}
-                        id={nameInputId}
+              onChange={handleInputChange}
+                        // id={nameInputId}
             />
           </label>
 
-          <label className={f.forma__label} htmlFor={numberInputId} >
+          <label className={f.forma__label} >
             NUMBER
             <input className={f.forma__input}
               type="tel"
@@ -80,7 +84,7 @@ export default function InputForm() {
               required
               value={number}
                         onChange={handleInputChange}
-                        id={numberInputId}
+                        // id={numberInputId}
             />
           </label>
 
